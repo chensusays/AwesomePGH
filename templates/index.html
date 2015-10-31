@@ -4,20 +4,21 @@
 {% for image in images %}
 <a href="/image?id={{image.key.urlsafe}}"><h3>{{ image.title }}</h3>
 <img src="{{image.image_url}}"></a><br>
+{{image.description}}<br>
 {{image.comment_count}} {% if image.comment_count == 1 %}comment{% else %}comments{% endif %}<br>
-{{image.count}} {% if image.count == 1 %}user thinks{% else %}users think{% endif %} this is dumb. 
+{{image.count}} {% if image.count == 1 %}user voted{% else %}users voted{% endif %} for this idea. 
 {% if user_email %}
 <br><i>
 {% if image.voted %}
-I think it is. (<a href="/notdumb?id={{image.key.urlsafe}}">wait I changed my mind!</a>)
+<a href="/notdumb?id={{image.key.urlsafe}}">Click here to remove your vote.</a>
 {% else %}
-I don't think it is. (<a href="/dumb?id={{image.key.urlsafe}}">wait, yes it is!</a>)
+<a href="/dumb?id={{image.key.urlsafe}}">Click here to vote for this idea!</a>
 {% endif %}
 </i>
 {% endif %}
 <br>
 {% empty %}
-There are no images.
+There are no ideas.
 {% endfor %}
 
 {% endblock %}
