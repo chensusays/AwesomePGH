@@ -133,9 +133,11 @@ class FileUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
       
       if type in ['image/jpeg', 'image/png', 'image/gif', 'image/webp']:      
         title = self.request.get('title')
+        description = self.request.get('description')
         posted_image = PostedImage()
         posted_image.title = title
         posted_image.user = email
+        posted_image.description = description
         posted_image.image_url = images.get_serving_url(blob_info.key())
         posted_image.put()
         self.redirect('/')
@@ -144,6 +146,7 @@ class FileUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 ###############################################################################
 class PostedImage(ndb.Model):
   title = ndb.StringProperty()
+  description = ndb.StringProperty()
   image_url = ndb.StringProperty()
   user = ndb.StringProperty()
   time_created = ndb.DateTimeProperty(auto_now_add=True)
