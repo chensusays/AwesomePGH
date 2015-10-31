@@ -9,6 +9,9 @@ from google.appengine.ext import ndb
 from google.appengine.api import images
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.api import mail
+from google.appengine.ext.webapp import template
+
 
 ###############################################################################
 # We'll just use this convenience function to retrieve and render a template.
@@ -141,7 +144,34 @@ class FileUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         posted_image.image_url = images.get_serving_url(blob_info.key())
         posted_image.put()
         self.redirect('/')
+#################################################################################        
+class FormHandler(webapp2.RequestHandler):
+  def post(self):
+    name = self.request.get('name')
+    message = self.request.get('message')
+    email = self.request.get('email')
+    
+    params = {
+      'name': name,
+      'message': message,
+      'email': email
+    }
+    
+    from_address = 'contact@cs-1520-awesome-pgh.appspotmail.com'
+    subject = 'Contact from ' + name
+    body = 'Message from ' + email + ':\n\n' + message
+    mail.send_mail(from_address, 'demarco.st@gmail.com', subject, body)
 
+    render_template(self, 'contact.html', params)
+
+class ContactHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+
+    page_params = {
+      'user_email': email
+    }
+    render_template(self, 'contactUsForm.html', page_params)
 
 ###############################################################################
 class PostedImage(ndb.Model):
@@ -226,6 +256,8 @@ mappings = [
   ('/dumb', DumbHandler),
   ('/notdumb', NotDumbHandler),
   ('/image', ImageDetailHandler),
-  ('/comment', CommentHandler)
+  ('/comment', CommentHandler),
+  ('/contact', ContactHandler),
+  ('/send-contact', FormHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)
