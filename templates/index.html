@@ -1,24 +1,28 @@
 {% extends "_base.html" %}
 {% block bodycontent %}
-
+<div id="wrapper">
 {% for image in images %}
-<a href="/image?id={{image.key.urlsafe}}"><h3>{{ image.title }}</h3>
-<img src="{{image.image_url}}"></a><br>
-{{image.description}}<br>
-{{image.comment_count}} {% if image.comment_count == 1 %}comment{% else %}comments{% endif %}<br>
-{{image.count}} {% if image.count == 1 %}user voted{% else %}users voted{% endif %} for this idea. 
-{% if user_email %}
-<br><i>
-{% if image.voted %}
-<a href="/notdumb?id={{image.key.urlsafe}}">Click here to remove your vote.</a>
-{% else %}
-<a href="/dumb?id={{image.key.urlsafe}}">Click here to vote for this idea!</a>
-{% endif %}
-</i>
-{% endif %}
-<br>
-{% empty %}
-There are no ideas.
+	<div id="idea" class="knockout-top-to-bottom">
+		<a href="/image?id={{image.key.urlsafe}}"><h3>{{ image.title }}</h3>({{image.count}} votes)<br><img src="{{image.image_url}}"></a>
+		<br>
+			{% if user_email %}
+				<br>
+				{% if image.voted %}
+					<a class="vote" href="/notdumb?id={{image.key.urlsafe}}">Click here to remove your vote.</a>
+				{% else %}
+					<a class="vote" href="/dumb?id={{image.key.urlsafe}}">Click here to vote for this idea!</a>
+				{% endif %}
+			{% endif %}
+			{{image.comment_count}} {% if image.comment_count == 1 %}comment{% else %}comments{% endif %}	
+			<br><br>
+		<p>
+			{{image.description}}
+		</p>
+		<div class="clearfix"></div>
+		<br><br>
+	</div>
+	{% empty %}
+		There are no ideas.
 {% endfor %}
-
+</div>
 {% endblock %}

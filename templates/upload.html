@@ -1,13 +1,19 @@
 {% extends "_base.html" %}
 {% block bodycontent %}
-<h2>Post an Idea</h2>
-<form method="post" enctype="multipart/form-data" action="{{upload_url}}">
-Idea Title:<br>
-<input name="title" type="text"><br><br><br>
-File:<br>
-<input name="file" type="file"><br><br><br>
-Description:<br>
-<textarea name="description" type="text"></textarea><br><br><br>
-<input type="submit">
-</form>
+<div id="wrapper">
+<div id="idea" class="knockout-top-to-bottom">
+	<h2>Post an Idea</h2>
+	<form method="post" enctype="multipart/form-data" action="{{upload_url}}">
+	Idea Title:<br>
+	<input name="title" type="text"><br><br><br>
+	<div class="border"></div>
+	File:<br>
+	<input name="file" type="file"><br><br><br>
+	<div class="border"></div>
+	Description:<br>
+	<textarea name="description" type="text"></textarea><br><br><br>
+	<input type="submit">
+	</form>
+</div>
+</div>
 {% endblock %}
