@@ -1,4 +1,4 @@
-application: fixburgh
+application: cs-1520-awesome-pgh
 version: v1
 runtime: python27
 api_version: 1
